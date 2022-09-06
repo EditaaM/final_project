@@ -15,17 +15,15 @@ const Table = ({ data }) => {
       <tbody>
         {data.map((item, index) => (
           <tr key={index}>
+            <td>{item.name}</td>
+            <td>{item.email}</td>
+            <td>{item.date}</td>
+            <td>{item.time}</td>
             <td>
-              <input type="text" value={item.name} name="name" />
+              <button>UPDATE</button>
             </td>
             <td>
-              <input type="text" value={item.email} name="email" />
-            </td>
-            <td>
-              <input type="text" value={item.date} name="date" />
-            </td>
-            <td>
-              <input type="text" value={item.time} name="time" />
+              <button>DELETE</button>
             </td>
           </tr>
         ))}

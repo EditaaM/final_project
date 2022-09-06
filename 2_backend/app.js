@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+
 require('dotenv').config();
 
 const connectMongoDB = require('./config/db.js');
 const Client = require('./models/Client.model.js');
+const asyncHandler = require('express-async-handler');
 
 const app = express();
 
@@ -16,61 +18,61 @@ connectMongoDB();
 app.use(express.json());
 app.use(cors());
 
-// Routes
+//Routes
 // -- Get all client by id
-app.get('/api/clients/:id', async (req, res) => {
-  try {
+app.get(
+  '/api/clients/:id',
+  asyncHandler(async (req, res) => {
     const client = await Client.findById(req.params.id);
-    res.json(client);
-  } catch (error) {
-    console.log(error);
-  }
-});
+
+    if (client) res.status(201).json(client);
+    else res.status(404).json({ message: 'Client not found' });
+  })
+);
 
 // -- Get all clients
-app.get('/api/clients', async (req, res) => {
-  try {
-    const clients = await Client.find();
-    res.json(clients);
-  } catch (error) {
-    console.log(error);
-  }
-});
+app.get(
+  '/api/clients',
+  asyncHandler(async (_req, res) => {
+    const clients = await Client.find({});
+    res.status(201).json(clients);
+  })
+);
 
 // -- create user
-app.post('/api/clients', async (req, res) => {
-  try {
+app.post(
+  '/api/clients',
+  asyncHandler(async (req, res) => {
     const { name, email, date, time } = req.body;
     const isClientDataValid = new Client({ name, email, date, time });
 
     const client = await Client.create(isClientDataValid);
 
-    res.status(201).json(client);
-  } catch (error) {
-    console.log(error);
-  }
-});
+    if (client) res.status(201).json(client);
+    else res.status(404).json({ message: 'Client not added' });
+  })
+);
 
 // -- update client by id
-app.put('/api/clients/:id', async (req, res) => {
-  try {
+app.put(
+  '/api/clients/:id',
+  asyncHandler(async (req, res) => {
     const client = await Client.findByIdAndUpdate(req.params.id, req.body);
 
-    res.status(201).json(client);
-  } catch (error) {
-    console.log(error);
-  }
-});
+    if (client) res.status(201).json(client);
+    else res.status(404).json({ message: 'Client not added' });
+  })
+);
 
 // -- delete client
-app.delete('/api/clients/:id', async (req, res) => {
-  try {
+app.delete(
+  '/api/clients/:id',
+  asyncHandler(async (req, res) => {
     const client = await Client.findByIdAndDelete(req.params.id);
 
-    res.status(201).json(client);
-  } catch (error) {
-    console.log(error);
-  }
-});
+    if (client) res.status(201).json(client);
+    else res.status(404).json({ message: 'Client not added' });
+  })
+);
 
 app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
