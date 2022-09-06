@@ -1,27 +1,22 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+import useFetch from '../../../../hooks/useFetch';
 import Table from '../../../../components/Table/Table';
 
 const ClientList = () => {
-  const [clients, setClients] = useState('');
+  const { clients, isLoading, error } = useFetch(
+    'http://localhost:5000/api/clients'
+  );
 
-  useEffect(() => {
-    const getClients = () => {
-      axios
-        .get('http://localhost:5000/api/clients')
-        .then((res) => {
-          const clients = res.data;
-          setClients(clients);
-          console.log('Clients received');
-        })
-        .catch(() => {
-          console.log('Error');
-        });
-    };
-    getClients();
-  }, [setClients]);
-
-  return <div>{clients && <Table data={clients} />}</div>;
+  return (
+    <div>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        <Table data={clients} />
+      )}
+    </div>
+  );
 };
 
 export default ClientList;
