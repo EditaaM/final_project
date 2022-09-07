@@ -31,15 +31,11 @@ const ClientReg = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
-      console.log('Form submited');
-
       const newClient = {
         name: form.name,
         email: form.email,
@@ -94,7 +90,6 @@ const ClientReg = () => {
             value={form.time}
             onChange={(e) => setField('time', e.target.value)}
           >
-            <option value="default">Select time</option>
             <option value="8:00">8:00</option>
             <option value="8:30">8:30</option>
             <option value="9:00">9:00</option>
