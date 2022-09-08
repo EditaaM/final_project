@@ -1,8 +1,10 @@
+import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import EditableRow from './EditableRow/EditableRow';
 import ReadOnlyRow from './ReadOnlyRow.js/ReadOnlyRow';
 import Pagination from '../Pagination';
+import { StyledTable, StyledTableWrapper } from './Table.style';
 
 const Table = ({ data }) => {
   const tableHeadData = Object.keys(data[0]);
@@ -83,13 +85,15 @@ const Table = ({ data }) => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <>
+    <StyledTableWrapper>
       <form onSubmit={handleEditFormSubmit}>
-        <table>
+        <StyledTable>
           <thead>
             <tr>
               {tableHeadData.slice(1, tableHeadData.length - 1).map((item) => (
-                <th key={item}>{item}</th>
+                <th key={item}>
+                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                </th>
               ))}
               <th>Action</th>
             </tr>
@@ -114,14 +118,14 @@ const Table = ({ data }) => {
               </>
             ))}
           </tbody>
-        </table>
+        </StyledTable>
       </form>
       <Pagination
         clientsPerPage={clientsPerPage}
         totalClients={clients.length}
         paginate={paginate}
       />
-    </>
+    </StyledTableWrapper>
   );
 };
 
