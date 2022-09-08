@@ -1,14 +1,37 @@
 import React from 'react';
+import Button from '../../Button/Button';
+import { StyledInput } from './EditableRow.style';
 
 const EditableRow = ({
   editClientInfo,
   handleEditFormChange,
   handleCancelClick,
 }) => {
+  const generateWorkingHours = (start, finish) => {
+    let workingHours = [];
+
+    for (let i = start; i <= finish; i++) {
+      let time00;
+      let time30;
+
+      time00 = `${i}:00`;
+      workingHours.push(time00);
+
+      if (i !== finish) {
+        time30 = `${i}:30`;
+        workingHours.push(time30);
+      }
+    }
+
+    return workingHours;
+  };
+
+  const visitationTime = generateWorkingHours(8, 17);
+
   return (
     <tr>
       <td>
-        <input
+        <StyledInput
           type="text"
           name="name"
           onChange={handleEditFormChange}
@@ -40,18 +63,28 @@ const EditableRow = ({
           onChange={handleEditFormChange}
           value={editClientInfo.time}
         >
-          <option value="8:00">8:00</option>
-          <option value="8:30">8:30</option>
-          <option value="9:00">9:00</option>
-          <option value="9:30">9:30</option>
-          <option value="10:00">10:00</option>
+          {visitationTime.map((time) => (
+            <option value={time} key={time}>
+              {time}
+            </option>
+          ))}
         </select>
       </td>
       <td>
-        <button type="submit">Save</button>
-        <button type="button" onClick={handleCancelClick}>
-          Cancel
-        </button>
+        <Button
+          type="submit"
+          text="Save"
+          bgColor="#F2A594"
+          padding="10px 26px"
+          margin="0 10px 0 0"
+        />
+        <Button
+          type="button"
+          action={handleCancelClick}
+          text="Cancel"
+          bgColor="#f46d61"
+          padding="10px 20px"
+        />
       </td>
     </tr>
   );
