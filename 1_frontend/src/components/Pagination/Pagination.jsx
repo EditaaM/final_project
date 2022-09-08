@@ -1,3 +1,6 @@
+import React from 'react';
+import { StyledPagWrapper } from './Pagination.style';
+
 const usePagination = ({ clientsPerPage, totalClients, paginate }) => {
   const pageNumbers = [];
 
@@ -6,17 +9,15 @@ const usePagination = ({ clientsPerPage, totalClients, paginate }) => {
   }
 
   return (
-    <div>
+    <StyledPagWrapper>
       <ul>
         {pageNumbers.map((number) => (
           <li key={number}>
-            <a onClick={() => paginate(number)} href="#">
-              {number}
-            </a>
+            <button onClick={() => paginate(number)}>{number}</button>
           </li>
         ))}
       </ul>
-    </div>
+    </StyledPagWrapper>
   );
 };
 
