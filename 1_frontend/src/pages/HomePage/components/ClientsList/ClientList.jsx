@@ -1,5 +1,7 @@
+import React from 'react';
 import useFetch from '../../../../hooks/useFetch';
 import Table from '../../../../components/Table/Table';
+import { StyledListWrapper } from './ClientList.style';
 
 const ClientList = () => {
   const { clients, isLoading, error } = useFetch(
@@ -7,7 +9,8 @@ const ClientList = () => {
   );
 
   return (
-    <div>
+    <StyledListWrapper>
+      <h3>List of registered clients</h3>
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -15,7 +18,7 @@ const ClientList = () => {
       ) : (
         <Table data={clients} />
       )}
-    </div>
+    </StyledListWrapper>
   );
 };
 
